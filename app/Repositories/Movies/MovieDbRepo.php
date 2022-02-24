@@ -73,8 +73,13 @@ class MovieDbRepo implements MovieRepoInterface
 
     public function destroy(int $movieId): bool
     {
-        $deleted = $this->movieModel->delete($movieId);
+        $movie = $this->movieModel->find($movieId);
 
+        if (!$movie) {
+            throw new ServiceException(MovieError::NOT_FOUND);
+        }
+
+        $deleted = $movie->delete();
         if (!$deleted) {
             throw new ServiceException(MovieError::NOT_DELETED);
         }
