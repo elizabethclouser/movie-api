@@ -95,6 +95,8 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+$app->bind(App\Interfaces\MovieRepoInterface::class, App\Repositories\Movies\MovieDbRepo::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

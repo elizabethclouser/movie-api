@@ -4,14 +4,12 @@ namespace App\Services;
 
 use App\Structs\Movie;
 use App\Interfaces\MovieRepoInterface;
-use App\Exceptions\ServiceException;
-use App\Repositories\Movies\MovieDbRepo;
 
 class Movies
 {
     private MovieRepoInterface $movieRepo;
 
-    public function __construct(MovieDbRepo $movieRepo)
+    public function __construct(MovieRepoInterface $movieRepo)
     {
         $this->movieRepo = $movieRepo;
     }
