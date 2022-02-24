@@ -30,7 +30,7 @@ class MovieDbRepo implements MovieRepoInterface
     {
         $movie = $this->movieModel->find($movieId);
 
-        if ($movie->count()) {
+        if ($movie) {
             return $this->toDto($movie);
         }
 
@@ -60,9 +60,14 @@ class MovieDbRepo implements MovieRepoInterface
 
     public function update(int $movieId, array $data): Movie
     {
-        $update = $this->movieModel->find($movieId)->update($data);
+        $movie = $this->movieModel->find($movieId);
+                                   
+        if (!$movie) {
+            throw new ServiceException(MovieError::NOT_FOUND);
+        }
 
-        if ($update === true) {
+        $updated = $movie->update($data);
+        if ($updated) {
             $updated = $this->movieModel->find($movieId);
                                         
             return $this->toDto($updated);
