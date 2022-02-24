@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MovieController;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -13,6 +15,13 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->group(
+    ['middleware' => 'auth'], 
+    function () use ($router): void {
+        $router->get('/movies', '\App\Http\Controllers\MovieController@get');
+        $router->get('/movies/{movieId}', '\App\Http\Controllers\MovieController@show');
+        $router->post('/movies', '\App\Http\Controllers\MovieController@create');
+        $router->put('/movies/{movieId}', '\App\Http\Controllers\MovieController@update');
+        $router->delete('/movies/{movieId}', '\App\Http\Controllers\MovieController@destroy');
+    }
+);
