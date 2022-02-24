@@ -6,6 +6,7 @@ use App\Interfaces\MovieRepoInterface;
 use App\Structs\Movie;
 use App\Models\Movie as MovieModel;
 use App\Exceptions\ServiceException;
+use App\Enums\MovieError;
 
 class MovieDbRepo implements MovieRepoInterface
 {
@@ -33,7 +34,7 @@ class MovieDbRepo implements MovieRepoInterface
             return $this->toDto($movie);
         }
 
-        throw new ServiceException('Cannot find movie');
+        throw new ServiceException(MovieError::NOT_FOUND);
     }
 
     private function toDto(MovieModel $movie) {
@@ -54,7 +55,7 @@ class MovieDbRepo implements MovieRepoInterface
             return $this->toDto($movie);
         }
 
-        throw new ServiceException('Movie could not be created');
+        throw new ServiceException(MovieError::NOT_CREATED);
     }
 
     public function update(int $movieId, array $data): Movie
@@ -67,7 +68,7 @@ class MovieDbRepo implements MovieRepoInterface
             return $this->toDto($updated);
         }
 
-        throw new ServiceException('Movie could not be updated');
+        throw new ServiceException(MovieError::NOT_UPDATED);
     }
 
     public function destroy(int $movieId): bool
@@ -75,7 +76,7 @@ class MovieDbRepo implements MovieRepoInterface
         $deleted = $this->movieModel->delete($movieId);
 
         if (!$deleted) {
-            throw new ServiceException('Movie could not be deleted');
+            throw new ServiceException(MovieError::NOT_DELETED);
         }
 
         return true;
