@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Services\Movies;
 use App\Structs\Movie;
 use App\Exceptions\ServiceException;
+use App\Enums\MovieFormat;
 
 class MovieController extends Controller
 {
     protected const RULES = [
         'title'          => 'required|string|max:50',
-        'format'         => 'required|string|in:VHS,DVD,Streaming',
+        'format'         => 'required|string|in:' . 
+            MovieFormat::VHS . ',' .
+            MovieFormat::DVD . ',' .
+            MovieFormat::STREAMING,
         'length_minutes' => 'required|numeric|between:0,500',
         'release_year'   => 'required|numeric|between:1800,2100',
         'rating'         => 'required|numeric|between:1,5',
